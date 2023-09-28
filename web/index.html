@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8 /">
+<title>RIVA FESTIVAL</title>
+
+<link rel="stylesheet" type='text/css' href="/assets/style.css" />
+<script type="text/javascript">
+    var isstaticip = true;
+    var getstaticipaddr, getnetmask, getgateway, getpridns, getsecdns;
+
+    var manualssid = {{ .ManualSSID }};
+
+    getstaticipaddr = '{{ .NetIP }}';
+    getnetmask = '{{ .NetMask }}';
+    getgateway = '{{ .NetGW }}';
+    getpridns = '{{ .PriDNS }}';
+    getsecdns = '{{ .SecDNS }}';
+
+    if(getstaticipaddr == '') {
+        isstaticip = false;
+    }
+
+
+function onSelectSSID()
+{
+ var e = document.getElementById("SSID");
+ document.getElementById("Btn").disabled = false;
+ document.getElementById("etype").style.visibility = "hidden";
+ document.getElementById("pwd").style.visibility = "visible";
+ document.getElementById("configure_SSIDcheckbox").style.visibility = "visible";
+ document.getElementById("configure_Staticcheckbox").style.visibility = "visible";
+ document.getElementById("configure_checkbox1").style.visibility = "visible";
+ document.getElementById("configure_checkbox2").style.visibility = "visible";
+}
+
+function DHCPONOFF()
+{
+    if(document.getElementById("configure_checkbox2").checked == true)
+    {
+//        document.getElementById("StaticIP").style.visibility = "visible";
+        var tb  = document.getElementById("StaticIP");
+        tb.style.visibility = "visible";
+        tb.value = getstaticipaddr;
+        tb = document.getElementById("ipaddr");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("requser");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("NetMask");
+        tb.style.visibility = "visible";
+        tb.value = getnetmask;
+        tb = document.getElementById("netmask");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("Gateway");
+        tb.style.visibility = "visible";
+        tb.value = getgateway;
+        tb = document.getElementById("gateway");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("PrimaryDNS");
+        tb.style.visibility = "visible";
+        tb.value = getpridns;
+        tb = document.getElementById("pridns");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("SecondaryDNS");
+        tb.style.visibility = "visible";
+        tb.value = getsecdns;
+        tb = document.getElementById("secdns");
+        tb.style.visibility = "visible";
+    }
+    else
+    {
+        var tb  = document.getElementById("StaticIP");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("ipaddr");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("requser");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("NetMask");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("netmask");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("Gateway");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("gateway");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("PrimaryDNS");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("pridns");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("SecondaryDNS");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("secdns");
+        tb.style.visibility = "hidden";
+    }
+}
+
+function onKeyUpClearTB(obj)
+{
+    obj.value = "";
+}
+
+function ConfigureManually()
+{
+       if(document.getElementById("configure_checkbox1").checked == true)
+       {
+                document.getElementById("SSID").style.visibility = "hidden";
+                document.getElementById("SSIDManual").style.display = "block";
+                document.getElementById("SSIDManual").style.visibility = "visible";
+
+        }
+        else if(document.getElementById("configure_checkbox1").checked == false)
+        {
+                var tb  = document.getElementById("SSIDManual");
+                tb.style.display = "none";
+                tb.value =  "";
+                document.getElementById("SSID").style.visibility = "visible";
+        }
+}
+</script>
+</head>
+
+<body  style="font-family: Avenir, Tahoma, Arial, Verdana;">
+
+<div class= "mainBox" id = "maindisplay" >
+    <div class="header" ></div>
+    <div class="headerInformation" style = "border:0px solid green">
+        <div class="logo" ><img style = "width:100%;height:100%;"  src="/assets/logo.jpg" /></div>
+    </div>
+    <div class="info_Display" >
+        <b><div style = "text-align:left; float:left">Network status: {{ .NeworkName }}</div></b>
+        <div style = "text-align:left; float:left">{{ .Uptime }}</div>
+        <div style = "text-align:left; float:left">Temp: {{ .Temp }}C</div>
+    </div>
+</div>
+
+<div align ="centre" class="Box">
+    <div class="empty" ></div>
+</div>
+
+<form action=/HandleCfg method=POST >
+<div class="info_Display" >
+    <div class = "BigFont" style="color:#414042;">General Setup</div>
+    </br>
+
+    <div align = "left" style="color:#414042; float:left; padding-right: 30px;">
+    <input id="cfg_dlna" type="checkbox" style="color:#555555; float:top" name="cfg_dlna"/>
+    <label for="cfg_dlna">DLNA Renderer</label><br>
+    </div>
+
+    <div align = "left" style="color:#414042; float:left; padding-right: 30px;">
+    <input id="cfg_air2" type="checkbox" style="color:#555555; float:top" name="cfg_air2"/>
+    <label for="cfg_air2">AirPlay2</label><br>
+    </div>
+
+    <div align = "left" style="color:#414042; float:left; padding-right: 30px;">
+    <input id="cfg_uac2" type="checkbox" style="color:#555555; float:top" name="cfg_uac2"/>
+    <label for="cfg_uac2">USB Gadget UAC2</label><br>
+    </div>
+    <br/>
+
+    <div align = "left" style="color:#414042; float:left; padding-right: 30px;">
+    <input id="cfg_usbe" type="checkbox" style="color:#555555; float:top" name="cfg_usbe"/>
+    <label for="cfg_usbe">USB Ethernet</label><br>
+    </div>
+    <br/>
+    <br/>
+
+    <div class="Small MedWidth VSmallFont" style="color:#808285;">AMP Idle Timeout (sec)</div>
+    <input id="cfg_ampt" class="entryValue VSmallFont" style="margin-top:0px;color:#555555;" type="text" name="cfg_ampt" value="{{ .AmpTimeout }}" maxlength="3" />
+    <br/>
+    <p>Switch off amplifier if no audio plays</p>
+
+<div>
+    <input name="DeviceCfg" style ="border:0px solid red;color:#291818;float:left;" id="devcfg" input type="submit" class="Switch advance but" value="Apply" />
+</div>
+
+<div class="separator_line" style = "width:80%;">
+  <hr style = "width:100%;float:left;"/>
+  <br/>
+</div>
+</div>
+</form>
+
+<script type="text/javascript">
+    document.getElementById("cfg_dlna").checked = {{ .Dlna }};
+    document.getElementById("cfg_air2").checked = {{ .AirPlay2 }};
+    document.getElementById("cfg_usbe").checked = {{ .USBEth }};
+
+    var uacm = {{ .UACMode }};
+    if(uacm == 2) {
+        document.getElementById("cfg_uac2").checked = true;
+    } else {
+        document.getElementById("cfg_uac2").checked = false;
+    }
+</script>
+
+<form action=/HandleEq method=POST >
+<div class="info_Display" >
+    <div class = "BigFont" style="color:#414042;">Equalizer Preset</div>
+    </br>
+
+<select class="entryValue BigWidth VSmallFont" style="float:left;color:#555555; visibility:visible;" id="eq" name="eq">
+{{ $eq := .EqPreset }}
+{{ if eq $eq 1 }}
+<option value="1" selected>1</option>
+{{ else }}
+<option value="1">1</option>
+{{ end }}
+{{ if eq $eq 2 }}
+<option value="2" selected>2</option>
+{{ else }}
+<option value="2">2</option>
+{{ end }}
+{{ if eq $eq 3 }}
+<option value="3" selected>3</option>
+{{ else }}
+<option value="3">3</option>
+{{ end }}
+{{ if eq $eq 4 }}
+<option value="4" selected>4</option>
+{{ else }}
+<option value="4">4</option>
+{{ end }}
+{{ if eq $eq 5 }}
+<option value="5" selected>5</option>
+{{ else }}
+<option value="5">5</option>
+{{ end }}
+{{ if eq $eq 6 }}
+<option value="6" selected>6</option>
+{{ else }}
+<option value="6">6</option>
+{{ end }}
+</select>
+<br/>
+<br/>
+    <p>Equalizer preset configuration</p>
+<div>
+    <input name="DeviceCfg" style ="border:0px solid red;color:#291818;float:left;" id="eqcfg" input type="submit" class="Switch advance but" value="Apply" />
+</div>
+
+<div class="separator_line" style = "width:80%;">
+  <hr style = "width:100%;float:left;"/>
+  <br/>
+</div>
+</div>
+</form>
+
+<form action=/HandleDDMS method=POST >
+<div class="info_Display" >
+    <div class = "BigFont" style="color:#414042;">DDMS Setup</div>
+    </br>
+    <div id ="DDMSIDNameIDtype" class="Small MedWidth VSmallFont" style = "color:#808285;">DDMS SSID</div>
+    <input class="textbox entryValue VSmallFont" type="text" name="DDMSIDName" id="DDMSIDName" value="{{ .DdmsSSID }}" maxlength="23" />
+    <br/>
+    <br/>
+    <div class= "DDMSPassword Med" style="position:relative;border:0px solid red; visibility:visible" id ="AirplayPassword">
+    <div id ="DDMSPasswordIDtype" class="Small MedWidth VSmallFont" style = "color:#808285;">DDMS Password</div>
+    <input id="DDMSPassword" class = "entryValue VSmallFont" style="margin-top:0px;color:#555555;" type="text" name="DDMSPassword" value="{{ .DdmsPASS }}" maxlength="50" />
+    <br/>
+</div>
+    <p> Setup DDMS with friendly SSID and password. 
+<div>
+    <input name="DeviceNameB" style ="border:0px solid red;color:#291818;float:left;" id="DDMSIDName_ID" input type="submit" class="Switch advance but" value="Apply" />
+</div>
+
+<div class="separator_line" style = "width:80%;">
+  <hr style = "width:100%;float:left;"/>
+  <br/>
+</div>
+</div>
+</form>
+</div>
+
+<form action=/HandleNW method=POST autocomplete="off">
+<div class="info_Display" >
+<div class = "BigFont" style="color:#414042;">Select Your Network</div>
+</br>
+<input type="textbox" value="{{ .NeworkName }}" style="float:left;color:#555555;display:none;"
+    class="entryValue BigWidth VSmallFont" name="SSIDManual" id="SSIDManual" onclick="onKeyUpClearTB(this)" />
+
+<select class="entryValue BigWidth VSmallFont" style="float:left;color:#555555; visibility:visible;" id="SSID" name="SSID" onchange="onSelectSSID()">
+{{ $ssiddef := .NeworkName }}
+{{ range $ssid := .WNetworks }}
+{{ if eq $ssid $ssiddef }}
+<option value="{{ $ssid }}" selected>{{ $ssid }}</option>
+{{ else }}
+<option value="{{ $ssid }}">{{ $ssid }}</option>
+{{ end }}
+{{ end }}
+</select>
+
+</br>
+</br>
+</br>
+
+<div id="pwdEncryptField" class="Big BigWidth SmallMargT" >
+<div class= "password Med" style="position:relative;border:0px solid red; visibility:visible" id ="pwd">
+<div id ="pwdLabel" class="Small MedWidth VSmallFont" style="color:#808285;">Password</div>
+<input id="Passphrase" class="entryValue VSmallFont" style="margin-top:0px;color:#555555;" type="text" name="Passphrase" value="{{ .NeworkPass }}" />
+</div>
+<br>
+<br>
+
+<div class = "Configure_check Big MedWidth SmaMargT" align = "left" style="color:#414042;float:left;border:0px solid green;visibility:visible;" id="configure_Staticcheckbox" >
+<input id="configure_checkbox2"  type="checkbox" style="color:#555555float:left;visibility:visible;" name="checkboxConfigure" onclick = "DHCPONOFF()" />
+<p>Static IP<br/>ON/OFF</p>
+
+<p id="requser" style="visibility:hidden" ><font size="2">To configure Static IP Please fill all the fields<br/></font></p> 
+<label id="ipaddr" style="visibility:hidden">IP Address : <input type="textbox" style="color:#555555float:left;visibility:hidden;" class = "IpSet_tb entryItem VSmaFont" name = "StaticIP" maxlength="63" id = "StaticIP"  /></label>
+<label id="netmask" style="visibility:hidden">Net Mask : <input type="textbox" style="color:#555555float:left;visibility:hidden;" class = "IpSet_tb entryItem VSmaFont" name = "NetMask" maxlength="63" id = "NetMask"  /></label>
+<label id="gateway" style="visibility:hidden">Gateway : <input type="textbox" style="color:#555555float:left;visibility:hidden;" class = "IpSet_tb entryItem VSmaFont" name = "Gateway" maxlength="63" id = "Gateway"  /></label>
+<label id="pridns" style="visibility:hidden">Primary DNS :<input type="textbox" style="color:#555555float:left;visibility:hidden;" class = "IpSet_tb entryItem VSmaFont" name = "PrimaryDNS" maxlength="63" id = "PrimaryDNS"  /></label>
+<label id="secdns" style="visibility:hidden">Secondary DNS :<input type="textbox" style="color:#555555float:left;visibility:hidden;" class = "IpSet_tb entryItem VSmaFont" name = "SecondaryDNS" maxlength="63" id = "SecondaryDNS"  /></label>
+
+<script type="text/javascript">
+    if(isstaticip == true)
+    {
+        document.getElementById("configure_checkbox2").checked = true;
+        var tb  = document.getElementById("StaticIP");
+        tb.style.visibility = "visible";
+        tb.value = getstaticipaddr;
+        tb = document.getElementById("ipaddr");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("requser");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("NetMask");
+        tb.style.visibility = "visible";
+        tb.value = getnetmask;
+        tb = document.getElementById("netmask");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("Gateway");
+        tb.style.visibility = "visible";
+        tb.value = getgateway;
+        tb = document.getElementById("gateway");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("PrimaryDNS");
+        tb.style.visibility = "visible";
+        tb.value = getpridns;
+        tb = document.getElementById("pridns");
+        tb.style.visibility = "visible";
+
+        tb = document.getElementById("SecondaryDNS");
+        tb.style.visibility = "visible";
+        tb.value = getsecdns;
+        tb = document.getElementById("secdns");
+        tb.style.visibility = "visible";
+    }
+    else
+    {
+        document.getElementById("configure_checkbox2").checked = false;
+        var tb  = document.getElementById("StaticIP");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("ipaddr");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("requser");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("NetMask");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("netmask");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("Gateway");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("gateway");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("PrimaryDNS");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("pridns");
+        tb.style.visibility = "hidden";
+
+        tb = document.getElementById("SecondaryDNS");
+        tb.style.visibility = "hidden";
+        tb.value = "";
+        tb = document.getElementById("secdns");
+        tb.style.visibility = "hidden";
+    }
+</script>
+</div>
+
+<div class = "Configure_check Big MedWidth SmaMargT" align = "right" style="color:#414042;float:right;border:0px solid green;visibility:visible;" id="configure_SSIDcheckbox">
+<input id="configure_checkbox1"  type="checkbox" style="color:#555555float:left;visibility:visible;" name="configure_SSIDcheckbox" onclick="ConfigureManually()" />
+<p>Configure<br/>Manually</p>
+</div>
+</div>
+<script type="text/javascript">
+    if(manualssid == true){
+        document.getElementById("configure_checkbox1").checked = true;
+    } else {
+        document.getElementById("configure_checkbox1").checked = false;
+    }
+    ConfigureManually();
+</script>
+<br/>
+<br/>
+<div class = "gap VBig" ></div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<p>Setup your product to join your network of choice.
+   Static IP ON will help to configure with Static IP.
+   Configure Manually will help to configure with 
+   Hidden Network
+</p>
+<div>
+<input name="Config" style ="border:0px solid red;color:#291818;float:center;" id="Btn" type="submit" class="Switch advance but" value="Save" />
+</div>
+<div class="separator_line" style = "width:80%;">
+<hr style = "width:100%;float:left;"/>
+<br/>
+</div>
+</div>
+</div>
+</form>
+
+
+<form action= '/Reboot' method=POST>
+    <div class="info_Display" >
+        <div class = "BigFont" style="color:#414042;">Reboot Device</div>
+        </br>
+       <div id = "etype" class="appField1 EncryptType Small BigWidth" style ="position:relative;border:0px;display:block ;">
+        <p>Reboot device to apply changes</p>
+        </br>
+        <div>
+        <input name="Config" style ="border:0px solid red;color:#291818;float:left;" id="BtnReboot" type="Submit" class="Switch advance but" value="Reboot"/>
+      </div>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+      </br>
+</div>
+</div>
+</form>
+
+</div>
+</body>
+</html>

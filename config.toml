@@ -1,0 +1,23 @@
+root = "/root/riva"
+uacMode = 1
+airplay2 = false
+dlna = true
+rebuildCfg = false
+apMode = false
+ampTimeout = 180
+eqPreset = 4
+
+[network]
+  UsbEth = true
+  UsbIPaddr = "192.168.0.1"
+  UsbNMask = "255.255.255.0"
+  WManualSSID = false
+  WlanSSID = "home24"
+  WlanPass = "12345"
+  WlanIPaddr = ""
+  WlanNMask = ""
+  WlanGW = ""
+  PriDNS = ""
+  SecDNS = ""
+  DdmsSSID = "RIVA-AP"
+  DdmsPASS = "Riva12345678"
